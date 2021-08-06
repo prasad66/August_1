@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h3 {
+        font-weight: normal;
+      }
+      body {
+        font-family: 'Fira Code';
+        font-size: small;
+        background-color: rgba(255, 175, 4, 0.85);
+      }
+      pre{
+          font-size: large;
+      }
+    </style>
+    <script src="shadowing.js"></script>
+    <script src="deadzone.js"></script>
+  </head>
+  <body>
+    <h2><b><u>Shadowing in Javascript!!!</u></b> <br /></h2>
+    <h3>
+      <br />
+
+      <strong><u>Block Scoping:</u></strong> To understand shadowing in JavaScript, we
+      need to be clear with the scope first. In computer programming languages,
+      Scope is a certain section/region of the program where a defined variable
+      can have its existence and can be recognized, beyond that it can’t be
+      accessed. In JavaScript, a Block is a compound statement that is defined
+      by curly braces {} and used to combine multiple statements into one
+      statement where JavaScript expects only one statement. And all the
+      variables and functions that can be accessed inside a block are said to be
+      inside that block scope, hence called Block scoped.
+      <br />
+      <br /><br />
+      For example, let and const variables are stored in separate memory space,
+      so it is called block-scoped but var variables can be accessed outside the
+      block as it is stored in the Global object memory space, hence it is
+      called Global scoped.
+      <br /><br /><br />
+      <b><u>Shadowing:</u></b> Now, when a variable is declared in a certain scope
+      having the same name defined on its outer scope and when we call the
+      variable from the inner scope, the value assigned to the variable in the
+      inner scope is the value that will be stored in the variable in the memory
+      space. This is known as Shadowing or Variable Shadowing. In JavaScript,
+      the introduction of let and const in ECMAScript 6 along with block scoping
+      allows variable shadowing.
+
+      <br /><br /><br />
+
+      1.) By definition, an outer scoped variable is said to be "shadowed" by an
+      inner scoped variable when both of them have the same name. To understand
+      variable shadowing in JavaScript, you must first be aware of the two
+      scopes you can declare variables in:
+      <br /><br />
+
+      <b><u>Local Scope:</u></b> Variables declared here are block-scoped or
+      function-scoped <br />
+      <b><u>Global Scope:</u></b>It's the outermost scope where any variable that's
+      declared is available globally. <br />
+      <br />
+
+      And, the three ways in which you can declare variables in those two scopes
+      are as follows: <br />
+      <br />
+
+      => Using 'var' - creates a function-scoped or globally-scoped variable.
+      <br />
+      => Using 'let' — creates a block-scoped local variable. <br />
+      => Using 'const' — creates a block-scoped local constant. <br />
+      <br />
+
+      Now that you know the basics, you must remember the following rules that
+      apply to variables depending on the scope they're declared in: <br />
+      <br />
+
+      =>Variable Type and Scope Determine If the Value of Shadowed Variable Is
+      Overwritten. <br />
+      =>Local Scope Variables Take Precedence. <br />
+      =>let or const Cannot be Shadowed in a Local Scope. <br /><br />
+
+      <b><u>Variable Type and Scope Determine If the Value of Shadowed Variable Is
+        Overwritten</u> <br /> </b>
+      <br />
+      <br />
+      1.) Variables declared as let or const are block-scoped and they do not
+      overwrite the value of the shadowed variable. <br />
+      
+      <pre class="brush: js notranslate">
+        <u>Example:</u> <br>
+            var a = "apple";
+            if (true) { 
+            // block-scoped (local) 
+            let a = "aeroplane"; 
+            console.log("inside if block=>", a);<i> // 'aeroplane' </i>
+            console.log("outside if block =>", a);<i> // 'apple' <br /></i>
+            } <br />
+      </pre>
+
+
+      2.) This isn't true, however, for variables declared with var since they
+      are not block-scoped (but rather global and function scoped). Therefore,
+      they would overwrite values in block scope but not in function scope. For
+      example: <br />
+      <br />
+      <pre class="brush: js notranslate">
+        <u>Example:</u> <br>
+            var b = "ball";
+            if (true) { 
+            // block-scoped (local)
+            var b = "bat"; 
+            console.log(">>inside if block=>", b);<i> // 'bat' </i>
+            console.log("outside if block=>", b);<i> // 'ball' <br /></i>
+            } 
+      </pre>
+
+      3.) Since variables declared as var are function-scoped, the nested function in the following example won't overwrite the one with the same name in the outer scope:
+      <pre class="brush: js notranslate">
+        <u>Example:</u> <br>
+        function printCat() { 
+            var c = "cat"; 
+            
+            function printCamel() { 
+            var c = "camel";
+            return c;
+            } <br>
+            
+            console.log(">>inside inner function=>",printCamel()); <i>// 'camel'</i> 
+            console.log(">>outside inner function=>",c); <i>//'cat'</i>
+            }
+      </pre>
+      
+    <b><u>Local Scope Variables Take Precedence</u></b> <br><br>
+      
+      
+      1.) When you use a local scoped variable of the same name, its value takes precedence over the outer scoped one. For example:
+
+      <pre class="brush: js notranslate">
+
+        {
+            // global scope
+            var d = 'dog';
+            
+            if (true) {
+                // block-scoped (local)
+                const d = 'dice';
+                console.log(">>inside if block=>",d);<i> // 'dice'</i>
+            }
+            
+            console.log(">>outside if block=>",d);<i> // 'dog' </i>
+        }
+      </pre>
+      
+      
+      2.) Same thing happens in a function scope as you can see in the code below:" <br>
+      
+      <pre class="brush: js notranslate">
+        
+       { 
+            //global scope
+            var e = 'entity';
+            
+            function printE() {
+                // function scope (local)
+                const foo = 'enemy';
+                // ...
+                return foo;
+            }
+            
+            console.log(printE());<i> // 'enemy'</i>
+            console.log(e);<i> // 'entity'</i>
+       }    
+      </pre>
+      
+     <b><u> 'let' or 'const' Cannot be Shadowed in a Local Scope</u></b> <br> <br>
+     
+     
+     1.) In a local scope you cannot shadow another let or const. In that case, you will get an error as shown below:
+            
+            <pre class="brush: js notranslate">
+                function printF() {
+                    let f = 'food';
+                    
+                    if (true) {
+                        var f = 'fun';<i> // SyntaxError: Identifier 'f' has already been declared</i>
+                        }
+
+                        return f;
+                    }
+    
+            </pre>
+        
+        However, a variable declared with let, const and var can shadow a global-scoped let, const and var variable. For example:
+        
+        <pre class="brush: js notranslate">
+                // global scope
+                const g = 'grape';
+                
+                if (true) {
+                    // block-scoped (local)
+                    const g = 'gang';
+                    console.log(g);<i> // 'gang'</i>
+                }
+                
+                console.log(g);<i> // 'grape'</i>
+        </pre>
+        
+        
+      
+
+
+
+      <h2><u><b>DeadZone in Javascript!!!</b></u> <br /></h2>
+    
+      <p>
+        The term <b>"Dead Zone" or "Temperol Dead Zone (TDZ)</b> to describe the
+        state where variables are un-reachable. They are in scope, but they
+        aren't declared. The let and const variables exist in the TDZ from the
+        start of their enclosing scope until they are declared (i.e.) the
+        variable is said to be in a "temporal dead zone" (TDZ) from the start of
+        the block until the initialization has completed. <br /><br />
+
+        <u><b>Note:</b></u> The TDZ happens only with the 'let' and 'const'
+        variables because these variables are blocked scoped. For the 'var' the
+        variable will be assigned as undefined due to hoisting <br /><br />
+
+
+        <pre class="brush: js notranslate"> 
+            <u>Example:</u> 
+            <br />
+            {   // TDZ starts at beginning of scope <br />
+                console.log(num1); <i>// undefined </i> <br />
+                console.log(num1); <i>// ReferenceError </i> <br />
+                var bar = 1; <br />
+                let foo = 2; // End of TDZ (for foo) <br />
+            } <br />
+        </pre>
+
+
+        The term "temporal" is used because the zone
+        <b>"depends on the order of execution (time)" rather than the order</b>
+        in which the code is written (position). For Example: <br />
+        <br />
+            <pre class="brush: js notranslate">
+            <u>Example:</u> <br>
+            {
+               <i> // TDZ starts at beginning of scope </i><br />
+                const func = () => console.log(letVar); // OK <br /><br />
+                
+               <i> // Within the TDZ letVar access throws `ReferenceError` </i> <br />        
+                let letVar = 3; // End of TDZ (for letVar) <br />
+                func(); // Called outside TDZ! <br />
+            } 
+        
+            </pre>
+    <br />
+
+        The code above works because, even though the function that uses the let
+        variable appears before the variable is declared, the function is called
+        outside the TDZ. <br /><br />
+
+
+        
+            <b>The TDZ and typeof</b> <br> <br>
+        
+        Using the typeof operator for a let variable in its TDZ will throw a <b>ReferenceError</b> <br>
+        <pre class="brush: js notranslate">
+            <u>Example:</u> <br>
+            // results in a 'ReferenceError'
+
+            console.log(typeof i);
+            
+            let i = 10;
+        </pre>
+
+        This differs from using typeof for undeclared variables, and variables that hold a value of undefined.  <br><br>
+
+        <pre class="brush: js notranslate">
+            <u>Example:</u> <br>
+            // prints out 'undefined' <br>
+            console.log(typeof undeclaredVariable);
+        </pre>
+        
+      </p>
+      <br />
+    </h3>
+  </body>
+</html>
