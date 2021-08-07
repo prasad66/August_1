@@ -233,9 +233,9 @@
             <br />
             {   // TDZ starts at beginning of scope <br />
                 console.log(num1); <i>// undefined </i> <br />
-                console.log(num1); <i>// ReferenceError </i> <br />
-                var bar = 1; <br />
-                let foo = 2; // End of TDZ (for foo) <br />
+                console.log(num2); <i>// ReferenceError </i> <br />
+                var num1 = 1; <br />
+                let num2 = 2; // End of TDZ (for foo) <br />
             } <br />
         </pre>
 
